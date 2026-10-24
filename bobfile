@@ -1,0 +1,29 @@
+include https://raw.githubusercontent.com/codemonstur/bobfiles/master/foss-lib-github-maven
+
+vendor: com.github.codemonstur
+name: maven-check-pom
+version: 1.0.0
+release: 17
+description: A maven plugin for checking that properties defined in a pom are still used
+license:
+  name: MIT
+developer:
+  name: Jurgen Voorneveld
+  email: jegvoorneveld@gmail.com
+enablePreview: false
+packaging: maven-plugin
+dependencies:
+  - repository: org.apache.maven:maven-core:3.9.6
+    scope: provided
+  - repository: org.apache.maven:maven-plugin-api:3.9.6
+    scope: provided
+  - repository: org.apache.maven.plugin-tools:maven-plugin-annotations:3.13.1
+    scope: provided
+
+build
+ |  mvn clean package -DskipTests
+
+update
+ |  mvn validate -P vulnerabilities
+ |  mvn validate -P licenses
+ |  mvn validate -P checkpom
