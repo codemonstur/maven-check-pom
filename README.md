@@ -67,6 +67,39 @@ part of the build or in a CI script, can be listed in `ignored`, in the `ignored
 ```
 2. Run `mvn validate`
 
+### Reordering the direct children of `<project>`
+
+The plugin can also reorder the direct child tags of the `<project>` element of a pom.
+This is available through the `sort`, `reorder` and `format` goals:
+
+```
+mvn com.github.codemonstur:maven-check-pom:1.0.0:sort
+```
+
+The order can be configured with the `order` parameter and the placement of blank
+lines with the `newlines` parameter. Both default to a sensible standard order.
+
+```
+<plugin>
+    <groupId>com.github.codemonstur</groupId>
+    <artifactId>maven-check-pom</artifactId>
+    <version>1.0.0</version>
+    <configuration>
+        <order>
+            <order>modelVersion</order>
+            <order>parent</order>
+            <order>groupId</order>
+            <order>artifactId</order>
+            <order>version</order>
+        </order>
+        <newlines>
+            <newlines>modelVersion</newlines>
+            <newlines>packaging</newlines>
+        </newlines>
+    </configuration>
+</plugin>
+```
+
 ### Configuration settings
 
 The following settings can be used for the plugin:
