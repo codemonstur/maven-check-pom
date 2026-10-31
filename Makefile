@@ -20,10 +20,8 @@ clean: ## Delete everything in ./target
 	@$(INFO) "Cleaning"
 	@mvn clean
 
-build: ## Cleans the project and rebuilds the code
-	@$(INFO) "Building"
+build: ## Runs a mvn clean package
 	@mvn -DskipTests clean package
-
 test: ## Runs the tests
 	@mvn test
 
@@ -40,14 +38,13 @@ mutation: ## Run mutation tests on the unit tests
 	@$(INFO) "Mutation report written to target/pit-reports/index.html"
 
 
-validate: ## Check dependency versions, cves, licenses, code quality, and unused properties
+validate: ## Check dependency versions, cves, licenses, and code quality
 	@mvn com.github.codemonstur:maven-check-pom:1.0.0:check validate
 	@mvn com.github.codemonstur:maven-check-pom:1.0.0:reorder
 	@mvn versions:display-dependency-updates "-Dmaven.version.ignore=(?i).*(alpha|beta|rc|-m[0-9]+|snapshot).*"
 	@mvn versions:display-plugin-updates
 	@mvn verify -P vulnerabilities,licenses -DskipTests -T 1C
 	@mvn validate -P codequality
-
 release-notes: ## Write release notes in src/docs/releases for the current version
 	@mkdir -p src/docs/releases
 	@$(INFO) "Writing release notes to src/docs/releases/release-$(VERSION).txt"
