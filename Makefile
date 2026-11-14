@@ -46,7 +46,7 @@ validate: ## Check dependency versions, cves, licenses, javadoc, and code qualit
 	@mvn versions:display-plugin-updates
 	@mvn verify -P vulnerabilities,licenses -DskipTests -T 1C
 	@mvn validate -P codequality
-	@mvn -DskipTests javadoc:javadoc -Ddoclint=all,-missing
+	@mvn -DskipTests javadoc:javadoc
 
 release-notes: ## Write release notes in src/docs/releases for the current version
 	@mkdir -p src/docs/releases
