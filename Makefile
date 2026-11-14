@@ -4,6 +4,7 @@
 NAME=`xmllint --xpath "//project/artifactId/text()" pom.xml`
 VERSION=`xmllint --xpath "//project/version/text()" pom.xml`
 PREVIOUS_TAG=`git tag | sort -r | head -n 1`
+RELEASE_NOTES=src/docs/releases/release-$(VERSION).txt
 
 # Blue [INFO] prefix before every message, NO_COLOR=1 prints it plain
 ifneq ($(NO_COLOR),)
@@ -45,7 +46,7 @@ validate: ## Check dependency versions, cves, licenses, javadoc, and code qualit
 	@mvn versions:display-plugin-updates
 	@mvn verify -P vulnerabilities,licenses -DskipTests -T 1C
 	@mvn validate -P codequality
-	@mvn -DskipTests javadoc:javadoc
+	@mvn -DskipTests javadoc:javadoc -Ddoclint=all,-missing
 
 release-notes: ## Write release notes in src/docs/releases for the current version
 	@mkdir -p src/docs/releases
@@ -55,10 +56,15 @@ release-notes: ## Write release notes in src/docs/releases for the current versi
 	@git log --pretty="%s" $(PREVIOUS_TAG)... master >> src/docs/releases/release-$(VERSION).txt
 
 deploy: ## Clean, build and deploy a version to Github and Maven Central
+	@if [ ! -f $(RELEASE_NOTES) ]; then \
+		$(INFO) "Release notes not found: $(RELEASE_NOTES)" >&2; \
+		$(INFO) "Write the release notes by hand before deploying." >&2; \
+		exit 1; \
+	fi
 	@$(INFO) "Uploading to maven central"
 	@mvn clean deploy
 	@$(INFO) "Creating github release"
-	@gh release create $(NAME)-$(VERSION) target/$(NAME)-$(VERSION).jar target/$(NAME)-$(VERSION)-javadoc.jar target/$(NAME)-$(VERSION)-sources.jar -F src/docs/releases/release-$(VERSION).txt
+	@gh release create $(NAME)-$(VERSION) target/$(NAME)-$(VERSION).jar target/$(NAME)-$(VERSION)-javadoc.jar target/$(NAME)-$(VERSION)-sources.jar -F $(RELEASE_NOTES)
 	@$(INFO) "Tagging and pushing to github"
 	@git tag $(NAME)-$(VERSION)
 	@git push && git push --tags

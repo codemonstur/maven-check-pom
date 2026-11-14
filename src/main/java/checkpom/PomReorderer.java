@@ -1,7 +1,6 @@
 package checkpom;
 
 import org.apache.maven.execution.MavenSession;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 
@@ -53,8 +52,7 @@ public final class PomReorderer {
      * @param log the log to write progress and warnings to
      */
     public static void reorder(final MavenProject project, final MavenSession session,
-                               List<String> order, List<String> newlines, final Log log)
-            throws MojoFailureException {
+                               List<String> order, List<String> newlines, final Log log) {
         if (order == null || order.isEmpty()) order = DEFAULT_ORDER;
         if (newlines == null) newlines = DEFAULT_NEWLINES;
 

@@ -1,0 +1,9 @@
+1.0.0
+
+Initial version
+
+- check goal that fails the build when a property defined in a pom is never referenced
+- recognises ${name}, @{name} and @name@ references in the poms of the reactor, in files next to a pom and in everything below a src directory
+- ignores properties that maven plugins read directly from the project, such as maven.compiler.release and argLine
+- configurable with enabled, printUnused, failBuildOnUnused, ignored, ignoredFile and the checkpom.ignored system property
+- reorder, sort and format goals that reorder the direct children of project, with configurable order and blank line placement
