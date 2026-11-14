@@ -14,9 +14,15 @@ import java.util.List;
 @Mojo(name = "reorder", aggregator = true, threadSafe = true)
 public final class ReorderPom extends AbstractMojo {
 
+    /** Creates the reorder mojo. */
+    public ReorderPom() {
+    }
+
+    /** The project the mojo runs in. */
     @Parameter(defaultValue = "${project}", readonly = true, required = true)
     public MavenProject project;
 
+    /** The current Maven session. */
     @Parameter(defaultValue = "${session}", readonly = true, required = true)
     public MavenSession session;
 

@@ -23,6 +23,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 /** Reorders the direct child elements of the {@code <project>} element of a pom. */
 public final class PomReorderer {
 
+    /** The default order of the direct child elements of {@code <project>}. */
     public static final List<String> DEFAULT_ORDER = List.of(
             "modelVersion", "parent", "groupId", "artifactId", "version", "packaging",
             "name", "description", "url", "inceptionYear", "organization", "licenses",
@@ -31,6 +32,7 @@ public final class PomReorderer {
             "properties", "dependencyManagement", "dependencies", "repositories",
             "pluginRepositories", "build", "reports", "reporting", "profiles");
 
+    /** The default child elements after which a blank line is inserted. */
     public static final List<String> DEFAULT_NEWLINES = List.of(
             "modelVersion", "parent", "version", "packaging", "url", "licenses", "developers",
             "contributors", "mailingLists", "prerequisites", "modules", "scm",
@@ -41,6 +43,15 @@ public final class PomReorderer {
     private PomReorderer() {
     }
 
+    /**
+     * Reorders the direct children of the poms of the reactor.
+     *
+     * @param project the project the mojo runs in
+     * @param session the current Maven session
+     * @param order the desired order of the child elements, or {@code null} or empty for the default
+     * @param newlines the child elements after which a blank line is inserted
+     * @param log the log to write progress and warnings to
+     */
     public static void reorder(final MavenProject project, final MavenSession session,
                                List<String> order, List<String> newlines, final Log log)
             throws MojoFailureException {

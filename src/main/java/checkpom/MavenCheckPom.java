@@ -43,6 +43,10 @@ import static org.apache.maven.plugins.annotations.LifecyclePhase.VALIDATE;
 @Mojo(defaultPhase = VALIDATE, name = "check", threadSafe = true, aggregator = true)
 public final class MavenCheckPom extends AbstractMojo {
 
+    /** Creates the check mojo. */
+    public MavenCheckPom() {
+    }
+
     /**
      * Properties that plugins read from the project without them ever being referenced in a pom,
      * so they can never be proven unused by scanning text.
